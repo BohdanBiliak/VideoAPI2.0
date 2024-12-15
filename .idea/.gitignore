@@ -1,0 +1,6 @@
+
+/node_modules
+/dist
+modules.xml
+vcs.xml
+workspace.xml
