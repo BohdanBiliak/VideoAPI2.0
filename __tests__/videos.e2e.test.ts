@@ -104,6 +104,7 @@ describe('/videos', () => {
         await req
             .delete('/videos')
             .expect(204)
+        console.log('After deletion:', db.videos[0])
     })
 
 })
