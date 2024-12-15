@@ -14,3 +14,7 @@ export const deleteVideoController = (req: Request, res: Response) => {
     }
     res.status(404).send('No video with id ' + +req.params.id)
 }
+export const deleteVideo = (req: Request, res: Response) => {
+    db.videos = []
+    res.sendStatus(204)
+}
