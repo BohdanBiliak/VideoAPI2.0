@@ -10,12 +10,12 @@ const  videoController = {
     createVideo: (req: Request, res: Response) => {createVideoController(req, res)},
     putVideo: (req: Request, res: Response)=> {updateVideoController(req, res)},
     deleteVideo: (req: Request, res: Response) => {deleteVideoController(req, res)},
-    deleteAllVideos: (req: Request, res: Response) => {deleteVideo(req, res)},
+    deleteAllData: (req: Request, res: Response) => {deleteVideo(req, res)},
 }
 videoRouter.get('/', videoController.getVideos)
 videoRouter.post('/', videoController.createVideo)
 videoRouter.get('/:id', videoController.getVideoById)
 videoRouter.put('/:id', videoController.putVideo)
 videoRouter.delete('/:id', videoController.deleteVideo)
-videoRouter.delete('/', videoController.deleteAllVideos)
+
 

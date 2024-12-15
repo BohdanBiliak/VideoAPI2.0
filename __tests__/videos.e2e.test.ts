@@ -102,9 +102,9 @@ describe('/videos', () => {
     })
     it('should delete video', async () => {
         await req
-            .delete('/videos')
-            .expect(204)
-        console.log('After deletion:', db.videos[0])
+            .delete('/testing/all-data')
+            .expect(204);
+        expect(db.videos).toEqual([]);
     })
 
 })
