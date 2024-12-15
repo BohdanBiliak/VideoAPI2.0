@@ -100,5 +100,10 @@ describe('/videos', () => {
                 expect(res.body).toEqual({})
             })
     })
+    it('should delete video', async () => {
+        await req
+            .delete('/videos')
+            .expect(204)
+    })
 
 })

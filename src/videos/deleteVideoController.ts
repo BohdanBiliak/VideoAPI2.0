@@ -1,4 +1,4 @@
-import {db} from "../db/db";
+import {db, setDB} from "../db/db";
 
 import {Request, Response} from "express";
 
@@ -15,6 +15,6 @@ export const deleteVideoController = (req: Request, res: Response) => {
     res.status(404).send('No video with id ' + +req.params.id)
 }
 export const deleteVideo = (req: Request, res: Response) => {
-    db.videos = []
+    setDB()
     res.sendStatus(204)
 }
