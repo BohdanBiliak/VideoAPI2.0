@@ -15,7 +15,7 @@ export const updateVideoController = (req: Request, res: Response) => {
         Object.assign(foundVideo, req.body);
         return res.sendStatus(204);
     } catch (error) {
-        console.error("Error updating video:", error);  // Log the error for debugging
+        console.error("Error updating video:", error);
         return res.status(500).json({ message: "Internal Server Error" });
     }
 };

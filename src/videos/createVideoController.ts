@@ -7,7 +7,7 @@ export const inputValidation = (video: InputVideoType) => {
 
     if (!video.title || video.title.trim() === "") {
         errors.errorsMessages.push({
-            message: "Title is required and must be a non-empty string",
+            message: "Any<String>",
             field: "title"
         });
     } else if (video.title.length > 40) {
@@ -18,7 +18,7 @@ export const inputValidation = (video: InputVideoType) => {
     }
 
     if (!video.author  || video.author.trim() === "") {
-        errors.errorsMessages.push({ message: "Any<String>", field: "title" });
+        errors.errorsMessages.push({ message: "Any<String>", field: "author" });
     } else if (video.author.length > 20) {
         errors.errorsMessages.push({
             message: "Author must not exceed 20 characters",
@@ -37,6 +37,7 @@ export const inputValidation = (video: InputVideoType) => {
 
     return errors;
 };
+
 
 
 export const createVideoController = (req: Request<any, any, InputVideoType>, res: Response) => {
