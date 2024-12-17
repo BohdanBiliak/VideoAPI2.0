@@ -7,10 +7,6 @@ export const updateVideoController = (req: Request, res: Response) => {
         if (!foundVideo) {
             return res.status(404).json({ message: `No video with id ${req.params.id}` });
         }
-
-
-
-
         const errors = inputValidation(req.body);
         if (req.body.hasOwnProperty("canBeDownloaded")) {
             if (typeof req.body.canBeDownloaded !== 'boolean') {
