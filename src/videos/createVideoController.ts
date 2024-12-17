@@ -1,25 +1,31 @@
 import { Request, Response } from "express";
 import { db } from "../db/db";
-import { InputVideoType, Resolutions, OutputVideoType } from "../input-output/video-types";
+import {InputVideoType, OutputVideoType, Resolutions} from "../input-output/video-types";
 
-const InputValidation = (video: InputVideoType) => {
-    const errors: { errorsMessage: { message: string }[] } = { errorsMessage: [] };
-    if (!video.title.trim()) {
+export const InputValidation = (video: InputVideoType) => {
+    const errors: { errorsMessage: { message: string; field: string }[] } = { errorsMessage: [] };
+
+    if (!video.title || video.title.trim() === "") {
         errors.errorsMessage.push({
-            message: "Title is required and must be a non-empty string"
+            message: "Title is required and must be a non-empty string",
+            field: "title"
         });
     }
-    if (!video.author.trim()) {
+
+    if (!video.author  || video.author.trim() === "") {
         errors.errorsMessage.push({
-            message: "Author is required and must be a non-empty string"
+            message: "Author is required and must be a non-empty string",
+            field: "author"
         });
     }
+
     if (
         !Array.isArray(video.availableResolution) ||
         video.availableResolution.some(res => !Object.values(Resolutions).includes(res))
     ) {
         errors.errorsMessage.push({
-            message: "Invalid Resolution"
+            message: "Invalid resolution(s). Must be one of: " + Object.values(Resolutions).join(", "),
+            field: "availableResolutions"
         });
     }
 
@@ -35,14 +41,14 @@ export const createVideoController = (req: Request<any, any, InputVideoType>, re
     }
 
     const newVideo: OutputVideoType = {
-        id: Date.now(), // Unique ID
+        id: Date.now(),
         title: req.body.title,
         author: req.body.author,
+        availableResolution: req.body.availableResolution,
         canBeDownloaded: false,
         minAgeRestriction: null,
         createdAt: new Date().toISOString(),
-        publicationDate: new Date(Date.now() + 86400000).toISOString(),
-        availableResolution: req.body.availableResolution
+        publicationDate: new Date().toISOString(),
     };
 
     db.videos.push(newVideo);
