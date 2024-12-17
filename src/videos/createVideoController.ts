@@ -33,13 +33,7 @@ export const inputValidation = (video: OutputVideoType) => {
             field: "availableResolutions"
         });
     }
-    if (typeof video.canBeDownloaded !== 'boolean') {
 
-            errors.errorsMessages.push({
-                message: "canBeDownloaded must be a boolean or a string that can be converted to a boolean",
-                field: "canBeDownloaded"
-            });
-    }
     return errors;
 };
 
