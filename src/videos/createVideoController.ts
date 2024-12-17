@@ -5,9 +5,10 @@ import {  OutputVideoType} from "../input-output/video-types";
 export const inputValidation = (video: OutputVideoType) => {
     const errors: { errorsMessages: { message: string; field: string }[] } = { errorsMessages: [] };
 
+    // Validate title
     if (!video.title || video.title.trim() === "") {
         errors.errorsMessages.push({
-            message: "Any<String>",
+            message: "Title is required and must be a non-empty string",
             field: "title"
         });
     } else if (video.title.length > 40) {
@@ -17,8 +18,12 @@ export const inputValidation = (video: OutputVideoType) => {
         });
     }
 
-    if (!video.author  || video.author.trim() === "") {
-        errors.errorsMessages.push({ message: "Any<String>", field: "author" });
+    // Validate author
+    if (!video.author || video.author.trim() === "") {
+        errors.errorsMessages.push({
+            message: "Author is required and must be a non-empty string",
+            field: "author"
+        });
     } else if (video.author.length > 20) {
         errors.errorsMessages.push({
             message: "Author must not exceed 20 characters",
@@ -26,6 +31,7 @@ export const inputValidation = (video: OutputVideoType) => {
         });
     }
 
+    // Validate available resolutions
     const allowedResolutions = ["P144", "P240", "P360", "P480", "P720", "P1080", "P1440", "P2160"];
     if (video.availableResolutions.some(res => !allowedResolutions.includes(res))) {
         errors.errorsMessages.push({
@@ -33,17 +39,22 @@ export const inputValidation = (video: OutputVideoType) => {
             field: "availableResolutions"
         });
     }
-    if (!video.canBeDownloaded && video.canBeDownloaded ) {
+
+    // Validate canBeDownloaded (should be a boolean)
+    if (video.canBeDownloaded) {
+        video.canBeDownloaded = true;
+    } else if (!video.canBeDownloaded) {
+        video.canBeDownloaded = false;
+    } else {
         errors.errorsMessages.push({
-            message: "Any<String>",
+            message: "canBeDownloaded must be a boolean or a string that can be converted to a boolean",
             field: "canBeDownloaded"
         });
     }
 
-
-
     return errors;
 };
+
 
 
 
