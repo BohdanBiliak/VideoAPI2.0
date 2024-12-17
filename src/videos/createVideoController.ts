@@ -18,10 +18,7 @@ export const inputValidation = (video: InputVideoType) => {
     }
 
     if (!video.author  || video.author.trim() === "") {
-        errors.errorsMessages.push({
-            message: "Author is required and must be a non-empty string",
-            field: "author"
-        });
+        errors.errorsMessages.push({ message: "Any<String>", field: "title" });
     } else if (video.author.length > 20) {
         errors.errorsMessages.push({
             message: "Author must not exceed 20 characters",
