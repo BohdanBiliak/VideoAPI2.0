@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { db } from "../db/db";
-import { InputVideoType, OutputVideoType} from "../input-output/video-types";
+import {  OutputVideoType} from "../input-output/video-types";
 
-export const inputValidation = (video: InputVideoType) => {
+export const inputValidation = (video: OutputVideoType) => {
     const errors: { errorsMessages: { message: string; field: string }[] } = { errorsMessages: [] };
 
     if (!video.title || video.title.trim() === "") {
@@ -33,6 +33,13 @@ export const inputValidation = (video: InputVideoType) => {
             field: "availableResolutions"
         });
     }
+    if (!video.canBeDownloaded && video.canBeDownloaded ) {
+        errors.errorsMessages.push({
+            message: "Any<String>",
+            field: "canBeDownloaded"
+        });
+    }
+
 
 
     return errors;
@@ -40,7 +47,7 @@ export const inputValidation = (video: InputVideoType) => {
 
 
 
-export const createVideoController = (req: Request<any, any, InputVideoType>, res: Response) => {
+export const createVideoController = (req: Request<any, any, OutputVideoType>, res: Response) => {
     const errors = inputValidation(req.body);
 
     if (errors.errorsMessages.length > 0) {
