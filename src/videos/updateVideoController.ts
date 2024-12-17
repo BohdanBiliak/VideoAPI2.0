@@ -1,7 +1,7 @@
 import { db } from "../db/db";
 import { Request, Response } from "express";
 import { inputValidation } from "./createVideoController";
-
+import {video} from "../db/dataset";
 export const updateVideoController = (req: Request, res: Response) => {
     try {
         const foundVideo = db.videos.find((video) => video.id === +req.params.id);

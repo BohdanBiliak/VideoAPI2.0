@@ -4,8 +4,6 @@ import {  OutputVideoType} from "../input-output/video-types";
 
 export const inputValidation = (video: OutputVideoType) => {
     const errors: { errorsMessages: { message: string; field: string }[] } = { errorsMessages: [] };
-
-    // Validate title
     if (!video.title || video.title.trim() === "") {
         errors.errorsMessages.push({
             message: "Title is required and must be a non-empty string",
@@ -17,8 +15,6 @@ export const inputValidation = (video: OutputVideoType) => {
             field: "title"
         });
     }
-
-    // Validate author
     if (!video.author || video.author.trim() === "") {
         errors.errorsMessages.push({
             message: "Author is required and must be a non-empty string",
@@ -30,8 +26,6 @@ export const inputValidation = (video: OutputVideoType) => {
             field: "author"
         });
     }
-
-    // Validate available resolutions
     const allowedResolutions = ["P144", "P240", "P360", "P480", "P720", "P1080", "P1440", "P2160"];
     if (video.availableResolutions.some(res => !allowedResolutions.includes(res))) {
         errors.errorsMessages.push({
@@ -40,18 +34,12 @@ export const inputValidation = (video: OutputVideoType) => {
         });
     }
     if (typeof video.canBeDownloaded !== 'boolean') {
-        if (video.canBeDownloaded === "true") {
-            video.canBeDownloaded = true;
-        } else if (video.canBeDownloaded === "false") {
-            video.canBeDownloaded = false;
-        } else {
+
             errors.errorsMessages.push({
                 message: "canBeDownloaded must be a boolean or a string that can be converted to a boolean",
                 field: "canBeDownloaded"
             });
-        }
     }
-
     return errors;
 };
 
@@ -65,6 +53,7 @@ export const createVideoController = (req: Request<any, any, OutputVideoType>, r
         res.status(400).send(errors);
         return;
     }
+
 
     const newVideo: OutputVideoType = {
         id: Date.now(),
