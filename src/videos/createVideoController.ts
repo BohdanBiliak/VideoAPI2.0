@@ -3,7 +3,7 @@ import { db } from "../db/db";
 import {  OutputVideoType} from "../input-output/video-types";
 
 export const inputValidation = (video: OutputVideoType) => {
-    const errors: { errorsMessages: { message: string; field: string }[] } = { errorsMessages: [] };
+    const errors: { errorsMessages: { message: string; field: string }[] } = {errorsMessages: []};
     if (!video.title || video.title.trim() === "") {
         errors.errorsMessages.push({
             message: "Title is required and must be a non-empty string",
@@ -33,6 +33,14 @@ export const inputValidation = (video: OutputVideoType) => {
             field: "availableResolutions"
         });
     }
+    if (video.canBeDownloaded && typeof video.canBeDownloaded !== 'boolean') {
+        errors.errorsMessages.push({
+            message: "canBeDownloaded must be a boolean or a string that can be converted to a boolean",
+            field: "canBeDownloaded"
+        });
+
+    }
+
 
     return errors;
 };
