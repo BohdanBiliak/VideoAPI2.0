@@ -12,12 +12,18 @@ export const updateVideoController = (req: Request, res: Response) => {
 
 
         const errors = inputValidation(req.body);
-        if (typeof req.body.canBeDownloaded !== 'boolean') {
-            if (req.body.canBeDownloaded === "true") {
-                errors.errorsMessages.push({
-                    message: "canBeDownloaded must be a boolean or a string that can be converted to a boolean",
-                    field: "canBeDownloaded"
-                });
+        if (req.body.hasOwnProperty("canBeDownloaded")) {
+            if (typeof req.body.canBeDownloaded !== 'boolean') {
+                if (req.body.canBeDownloaded === "true") {
+                    req.body.canBeDownloaded = true;
+                } else if (req.body.canBeDownloaded === "false") {
+                    req.body.canBeDownloaded = false;
+                } else {
+                    errors.errorsMessages.push({
+                        message: "canBeDownloaded must be a boolean or a string that can be converted to a boolean",
+                        field: "canBeDownloaded"
+                    });
+                }
             }
         }
         if (errors.errorsMessages.length > 0) {
