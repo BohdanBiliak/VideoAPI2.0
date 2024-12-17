@@ -39,17 +39,17 @@ export const inputValidation = (video: OutputVideoType) => {
             field: "availableResolutions"
         });
     }
-
-    // Validate canBeDownloaded (should be a boolean)
-    if (video.canBeDownloaded) {
-        video.canBeDownloaded = true;
-    } else if (!video.canBeDownloaded) {
-        video.canBeDownloaded = false;
-    } else {
-        errors.errorsMessages.push({
-            message: "canBeDownloaded must be a boolean or a string that can be converted to a boolean",
-            field: "canBeDownloaded"
-        });
+    if (typeof video.canBeDownloaded !== 'boolean') {
+        if (video.canBeDownloaded === "true") {
+            video.canBeDownloaded = true;
+        } else if (video.canBeDownloaded === "false") {
+            video.canBeDownloaded = false;
+        } else {
+            errors.errorsMessages.push({
+                message: "canBeDownloaded must be a boolean or a string that can be converted to a boolean",
+                field: "canBeDownloaded"
+            });
+        }
     }
 
     return errors;
