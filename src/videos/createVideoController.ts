@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { db } from "../db/db";
-import { InputVideoType, OutputVideoType, Resolutions } from "../input-output/video-types";
+import { InputVideoType, OutputVideoType} from "../input-output/video-types";
 
 export const inputValidation = (video: InputVideoType) => {
     const errors: { errorsMessages: { message: string; field: string }[] } = { errorsMessages: [] };
@@ -29,23 +29,14 @@ export const inputValidation = (video: InputVideoType) => {
         });
     }
 
-    if (video.availableResolutions === null) {
-        // Możemy pozwolić na `null`, jeśli specyfikacja to dopuszcza
-    } else if (!Array.isArray(video.availableResolutions) || video.availableResolutions.length === 0) {
+    const allowedResolutions = ["P144", "P240", "P360", "P480", "P720", "P1080", "P1440", "P2160"];
+    if (video.availableResolutions.some(res => !allowedResolutions.includes(res))) {
         errors.errorsMessages.push({
-            message: "At least one resolution should be added",
-            field: "availableResolutions"
-        });
-    } else if (
-        video.availableResolutions.some(
-            (res) => !Object.values(Resolutions).includes(res)
-        )
-    ) {
-        errors.errorsMessages.push({
-            message: `Invalid resolution(s). Must be one of: ${Object.values(Resolutions).join(", ")}`,
+            message: `Invalid resolution(s). Must be one of: ${allowedResolutions.join(", ")}`,
             field: "availableResolutions"
         });
     }
+
 
     return errors;
 };
